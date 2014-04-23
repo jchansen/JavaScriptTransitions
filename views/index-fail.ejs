@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+
+  <div id="container">
+    <div id="viewport">
+      <div id="world">
+
+        <div id="world-bg"><div>
+            <!-- Style this div if you want a global bg
+              -- that will rotate with the content. -->
+          </div></div>
+        <div id="world-fixed">
+          <!-- This static div provides a content area that
+            -- does not animate with the bg or content.
+            -- It's not necessary, but can be useful if you
+            -- want a fixed style on the viewport.
+            -- For this demo there is a slight box-shadow
+            -- around the edge of the viewport. -->
+        </div>
+        <div id="world-content">
+          <!-- The region will place your views here -->
+        </div> <!-- / world-content -->
+
+      </div> <!-- / world -->
+    </div> <!-- / viewport -->
+  </div> <!-- / container -->
+
+  <!-- This is the view template. Every time you press a
+    -- button to transition Marionette renders a new instance
+    -- of this template and transitions to it. -->
+  <script id="slideTemplate" type="template">
+
+    <div class="container-fluid">
+      <div class="row-fluid">
+
+        <div class="span6 scroll-y">
+          <div class="page-header">
+            <h1><%= title %> <br /><small> <%= subtitle %></small></h1>
+          </div>
+          <p>My <a href="http://codepen.io/somethingkindawierd/pen/tuhFE" target="_blank">previous pen showed how to push/pop MarionetteJS views</a> on and off of a stack. Now we're playing with transitioning to a new view within a region. You can <button class="btn next-slide">slide <i class="icon-arrow-right"></i></button> to a new view, <button class="btn next-rotate">rotate <i class="icon-retweet"></i></button> by a random angle, or <button class="btn next-drop">drop <i class="icon-arrow-down"></i></button> down to the new view.</p>
+          <p class="alert">Currently only tested in WebKit</a>
+          <p>This differs from the <a href="http://codepen.io/somethingkindawierd/pen/tuhFE" target="_blank">StackView</a> in a few ways:
+          <ol>
+            <li>It's a custom region, so the new view replaces the old one after the transition is complete.</li>
+            <li>The transition relies on matrix transformations.</li>
+          </ol>
+          </p>
+        </div>
+
+        <div class="span6 span-center scroll-y">
+          <div class="img-container">
+            <div class="center-parent">
+              <div class="center-child">
+                <img src="http://www.beebeography.com/Nature/i-rP8JSCv/0/M/DSC_8183-M.jpg" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div> <!-- / row-fluid -->
+    </div> <!-- / container-fluid -->
+
+  </script>
+
+  <script type="application/javascript" src="/javascripts/modernizr.js"></script>
+  <script type="application/javascript" src="/javascripts/jquery.js"></script>
+  <script type="application/javascript" src="/javascripts/underscore.js"></script>
+  <script type="application/javascript" src="/javascripts/backbone.js"></script>
+  <script type="application/javascript" src="/javascripts/backbone.marionette.js"></script>
+
+  <script type="application/javascript" src="http://dl.dropbox.com/u/46070688/js/geom/point.js"></script>
+  <script type="application/javascript" src="http://dl.dropbox.com/u/46070688/js/geom/matrix.js"></script>
+
+  <script type="application/javascript" src="/javascripts/app.js"></script>
+
+  </body>
+</html>

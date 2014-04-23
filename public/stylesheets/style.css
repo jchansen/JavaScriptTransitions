@@ -1,0 +1,156 @@
+#container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: translate3d(0, 0, 0);
+  /* prevent flicker */
+}
+/* this is the element the user is looking through */
+#viewport {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+/* the world contains everything
+ * - the background that will move with the content
+ * - an optional fixed background
+ * - all content, including off-screen elements
+ */
+#world {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+/* this is where everything will be rendered into */
+#world-content,
+#world-bg {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  height: 100%;
+  transform-origin: 0 0;
+  /* attempting to remove animation flicker */
+  perspective: 1000;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  transform-style: preserve-3d;
+}
+/* setup moving containers, preparing for animation */
+#world-content.animated,
+#world-bg.animated {
+  transition: transform 0.8s ease-in-out;
+  animation-duration: 0.8s;
+}
+/* we think of each content element within the world
+ * as a slide. It renders the full size of the container.
+ * Initially it will be placed off-scren, and the parent
+ * will be transitioned to bring the slide into view.
+ */
+#world-content > div {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  transform-origin: 0 0;
+  /* attempting to remove animation flicker */
+  perspective: 1000;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  transform-style: preserve-3d;
+}
+/* 
+ * Demo Styles 
+ *
+ * Nothing below here is strictly necessary for 
+ * the panning region to work. It just makes things 
+ * look a bit prettier :)
+ */
+html,
+body {
+  background: #eaeaea;
+}
+#container {
+  background: #eee;
+}
+p {
+  line-height: 2em;
+}
+.page-header {
+  border-bottom: 1px solid #bbb;
+}
+#world-fixed {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 0 100px 0 rgba(0, 0, 0, 0.5) inset;
+}
+/*
+ * Make the background element HUGE so we can place our
+ * new view anywhere and safely transition to it knowing
+ * our background will cover the area.
+ */
+#world-bg > div {
+  position: absolute;
+  top: -1000%;
+  left: -1000%;
+  width: 3000%;
+  height: 3000%;
+  background: #eaeaea url(http://subtlepatterns.subtlepatterns.netdna-cdn.com/patterns/light_noise_diagonal.png);
+}
+.span-center {
+  text-align: center;
+}
+.center-parent {
+  display: table;
+  height: 100%;
+  width: 100%;
+}
+.center-parent .center-child {
+  display: table-cell;
+  vertical-align: middle;
+}
+#world-content > div {
+  line-height: 50%;
+}
+.scroll-y {
+  overflow-y: auto;
+}
+/*
+ * The centered-content on the right side only works 
+ * on larger screens so let's limit it to > 768
+ */
+@media (min-width: 768px) {
+  #world-content > div > .container-fluid {
+    height: 100%;
+  }
+  #world-content > div > .container-fluid > .row-fluid {
+    height: 100%;
+  }
+  #world-content > div > .container-fluid > .row-fluid > [class*="span"] {
+    position: relative;
+    height: 100%;
+  }
+  #world-content > div > .container-fluid > .row-fluid > [class*="span"] .img-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  #world-content > div > .container-fluid > .row-fluid > [class*="span"] .img-container img {
+    max-width: 300px;
+    box-shadow: 0 8px 16px -4px #000000;
+  }
+}

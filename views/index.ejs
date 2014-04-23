@@ -1,0 +1,366 @@
+<html class=" -webkit- js flexbox canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths"><head><meta charset="UTF-8">
+
+  <script src="http://s.codepen.io/assets/libs/prefixfree.min.js"></script>
+  <script src="http://s.codepen.io/assets/libs/modernizr.js"></script>
+
+  <link rel="stylesheet prefetch" href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css">
+  <link rel="stylesheet prefetch" href="https://dl.dropbox.com/u/46070688/css/animate.css">
+  <link rel="stylesheet prefetch" href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-responsive.min.css">
+
+  <style>/*
+ * Required Stack Styles.
+ *
+ * You must provide a container that flows to the
+ * correct size for the stacked content. This will
+ * force the stacks wrapper, and each stack item, 
+ * to fill the container.
+ */
+    .stacks {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      -webkit-transform: translate3d(0, 0, 0);
+    }
+    .stacks .stack-item {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      -webkit-transform: translate3d(0, 0, 0);
+    }
+    /* End Required Stack Styles */
+    /*
+     * Animations to transition stack items in/out.
+     *
+     * Use these exactly as is, or provide your own and
+     * set the following StackView options as needed:
+     * - `inTransitionClass`
+     * - `outTransitionClass`
+     * - `transitionDelay`
+     */
+    @-webkit-keyframes slideInFromRight {
+      0% {
+        -webkit-transform: translateX(100%);
+      }
+      100% {
+        -webkit-transform: translateX(0%);
+      }
+    }
+    .slideInFromRight {
+      -webkit-animation-name: slideInFromRight;
+    }
+    @-webkit-keyframes slideOutToRight {
+      0% {
+        -webkit-transform: translateX(0%);
+      }
+      100% {
+        -webkit-transform: translateX(100%);
+      }
+    }
+    .slideOutToRight {
+      -webkit-animation-name: slideOutToRight;
+    }
+    /* End Animations */
+    /*
+     * Visual styles for this demo
+     */
+    body,
+    html {
+      background: #eee;
+      height: 100%;
+      overflow: hidden;
+      /* provide a 2-column container
+       * with no padding or margins for
+       * full-width and full-height content.
+       */
+      /* ensure the description content can scroll */
+    }
+    body > .container-fluid,
+    html > .container-fluid {
+      height: 100%;
+      padding: 0;
+    }
+    body > .container-fluid > .row-fluid,
+    html > .container-fluid > .row-fluid {
+      height: 100%;
+    }
+    body > .container-fluid > .row-fluid > .span6,
+    html > .container-fluid > .row-fluid > .span6 {
+      width: 50%;
+      margin: 0;
+    }
+    body .description,
+    html .description {
+      height: 100%;
+      padding: 20px;
+      overflow-y: auto;
+    }
+    /*
+     * The container for our stacks.
+     * The stacks will fill this container 100%.
+     * For this demo the stacks container does
+     * not scroll. You can style your stackItem
+     * content to scroll using overflow-y if needed.
+     */
+    #stackView {
+      height: 100%;
+      position: relative;
+      background: white;
+    }
+    .stacks .stack-item {
+      background: white;
+      box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.7);
+      text-align: center;
+      line-height: 300px;
+    }
+    .stacks .stack-item.hiddenToRight {
+      -webkit-transform: translateX(100%);
+    }
+    .stacks .stack-item:first-child {
+      background: white;
+    }
+  </style>
+</head>
+
+<body>
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span6 description">
+
+      <div class="page-header">
+        <h1>Stack View Controller <br><small> powered by MarionetteJS</small></h1>
+      </div>
+
+      <p class="lead">Push subviews onto the stack. Pop subviews off of the stack.</p>
+
+      <div class="btn-group">
+        <button class="btn" id="add"><i class="icon-plus"></i> Add New Item</button>
+        <button class="btn" id="remove"><i class="icon-minus"></i> Remove Item</button>
+      </div>
+
+      <p>
+        <br>The <code>StackView</code> is a special view allowing you to <code>push</code> and <code>pop</code> subviews onto and off of the stack. Css can be used to transition the views in and out.</p>
+      <p>If you liked this you might also like <a href="http://codepen.io/somethingkindawierd/pen/cpiEw" target="_blank">the custom MarionetteJS Region</a> that pans to new views using css animations.</p>
+      <p class="muted">This demo utilizes prefixfree.js to get the css animations working cross-browser. It's been tested in Chrome, Safari &amp; Firefox.</p>
+
+    </div>
+    <div id="stackView" class="span6 stackViewContainer"><div class="stacks"><div class="stack-item" style="background-color: rgb(148, 186, 187);"><p>Root View</p></div><div class="stack-item animated slideInFromRight" style="background-color: rgb(123, 219, 210);"><p>something random</p></div><div class="stack-item animated slideInFromRight" style="background-color: rgb(224, 85, 61);"><p>something random</p></div><div class="stack-item animated slideInFromRight" style="background-color: rgb(181, 189, 156);"><p>something random</p></div><div class="stack-item animated slideInFromRight" style="background-color: rgb(134, 41, 70);"><p>something random</p></div></div></div>
+  </div>
+</div>
+<script style="display: none;">var __links = document.querySelectorAll('a');function __linkClick(e) { parent.window.postMessage(this.href, '*');} ;for (var i = 0, l = __links.length; i < l; i++) {if ( __links[i].getAttribute('target') == '_blank' ) { __links[i].addEventListener('click', __linkClick, false);}}</script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script><script src="http://underscorejs.org/underscore.js"></script><script src="http://backbonejs.org/backbone.js"></script><script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.marionette/1.0.0-rc6-bundled/backbone.marionette.js"></script><script src="http://twitter.github.com/bootstrap/assets/js/bootstrap.js"></script>
+<script>
+
+// Define the app and a region to show content
+// -------------------------------------------
+
+var App = new Backbone.Marionette.Application();
+
+App.addRegions({
+  "mainRegion": "#stackView"
+});
+
+// Create a module to contain some functionality
+// ---------------------------------------------
+
+App.module("SampleModule", function(Mod, App, Backbone, Marionette, $, _){
+
+  console.log(Mod, App, Backbone, Marionette, $, _);
+
+  // The Stack Manager View
+  // ----------------------
+
+  var StackView = Marionette.View.extend({
+
+    hasRootView: false,
+
+    // Define options for transitioning views in and out
+    defaults: {
+      inTransitionClass: 'slideInFromRight',
+      outTransitionClass: 'slideOutToRight',
+      animationClass: 'animated',
+      transitionDelay: 1000,
+      'class': 'stacks',
+      itemClass: 'stack-item'
+    },
+
+    initialize: function(options) {
+      this.views = [];
+      options = options || {};
+      this.options = _.defaults({}, this.defaults, options);
+    },
+
+    setRootView: function(view) {
+      this.hasRootView = true;
+      this.views.push(view);
+      view.render();
+      view.$el.addClass(this.options.itemClass);
+      this.$el.append(view.$el);
+    },
+
+    render: function() {
+      this.$el.addClass(this.options['class']);
+      return this;
+    },
+
+    // Pop the top-most view off of the stack.
+    pop: function() {
+      var self = this;
+      if(this.views.length > (this.hasRootView ? 1 : 0)) {
+        var view = this.views.pop();
+        this.transitionViewOut(view);
+      }
+    },
+
+    // Push a new view onto the stack.
+    // The itemClass will be auto-added to the parent element.
+    push: function(view) {
+      this.views.push(view);
+      view.render();
+      view.$el.addClass(this.options.itemClass);
+      this.transitionViewIn(view);
+      //console.log(this.views);
+    },
+
+    // Transition the new view in.
+    // This is broken out as a method for convenient overriding of
+    // the default transition behavior. If you only want to change the 
+    // animation use the trasition class options instead.
+    transitionViewIn: function(view) {
+      //console.log('in', this.options);
+      this.trigger('before:transitionIn', this, view);
+      view.$el.addClass('hiddenToRight');
+      this.$el.append(view.$el);
+
+      // Wait a brief moment so it triggers the css transactions
+      // If we don't delay, at least in my minimal testing, Chrome
+      // does not animate the content but instead snaps-to-position.
+      _.delay(function() {
+        view.$el.addClass(this.options.animationClass);
+        view.$el.addClass(this.options.inTransitionClass);
+        _.delay(function() {
+          view.$el.removeClass('hiddenToRight');
+          this.trigger('transitionIn', this, view);
+        }.bind(this), this.options.transitionDelay);
+      }.bind(this), 1);
+    },
+
+    // Trastition a view out.
+    // This is broken out as a method for convenient overriding of
+    // the default transition behavior. If you only want to change the 
+    // animation use the trasition class options instead.
+    transitionViewOut: function(view) {
+      this.trigger('before:transitionOut', this, view);
+      view.$el.addClass(this.options.outTransitionClass);
+      _.delay(function() {
+        view.close();
+        this.trigger('transitionOut', this, view);
+        //console.log(this.views);
+      }.bind(this), this.options.transitionDelay);
+    }
+
+  });
+
+  // Define a view to show
+  // ---------------------
+
+  var StackViewItem = Marionette.View.extend({
+
+    text: 'monkeys',
+
+    randomColor: function() {
+      var rc = (~~(Math.random() * 0xFFFFFF)).toString(16);
+      return '#' + new Array(7 - rc.length).join('0') + rc;
+    },
+
+    initialize: function(options) {
+      this.text = options.text;
+    },
+
+    render: function() {
+      //console.log('stackViewItem render');
+
+      this.$el.css('background-color', this.randomColor());
+
+      this.$el.append($('<p>', {
+        text: this.text
+      }));
+      return this;
+    }
+
+  });
+
+  // Define a controller to run this module
+  // --------------------------------------
+
+  console.log(Marionette, Marionette.Controller);
+
+  var Controller = Marionette.Controller.extend({
+
+    initialize: function(options) {
+
+      var self = this;
+
+      this.region = options.region;
+
+
+      this.listenTo(this.region, 'show', function() {
+        jQuery('#add').on('click', function() {
+          var v = new StackViewItem({text:'something random'});
+          self.stackView.push(v);
+        });
+        jQuery('#remove').on('click', function() {
+          self.stackView.pop();
+        });
+      });
+    },
+
+    show: function(){
+      this.stackView = new StackView();
+
+      var v = new StackViewItem({text:'Root View'});
+      this.stackView.setRootView(v);
+
+      this.listenTo(this.stackView, 'before:transitionIn', function() {
+        console.log('before:transitionIn', arguments);
+      });
+
+      this.listenTo(this.stackView, 'transitionIn', function() {
+        console.log('transitionIn', arguments);
+      });
+
+      this.listenTo(this.stackView, 'before:transitionOut', function() {
+        console.log('before:transitionOut', arguments);
+      });
+
+      this.listenTo(this.stackView, 'transitionOut', function() {
+        console.log('transitionOut', arguments);
+      });
+
+      this.region.show(this.stackView);
+    }
+
+  });
+
+
+  // Initialize this module when the app starts
+  // ------------------------------------------
+
+  Mod.addInitializer(function(){
+    Mod.controller = new Controller({
+      region: App.mainRegion
+    });
+    Mod.controller.show();
+  });
+});
+
+// Start the app
+// -------------
+
+App.start();//@ sourceURL=pen.js
+</script>
+</body></html>
